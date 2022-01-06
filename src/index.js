@@ -81,12 +81,13 @@ class LanguageDetector {
                 detections = [detections];
             }
 
+            const lu = this.services.languageUtils;
             detections.forEach(lng => {
                 if (found) return;
 
-                let cleanedLng = this.services.languageUtils.formatLanguageCode(lng);
-
-                if (this.services.languageUtils.isWhitelisted(cleanedLng)) {
+                let cleanedLng = lu.formatLanguageCode(lng);
+                if ((lu.isWhitelisted && lu.isWhitelisted(cleanedLng))
+                    || (lu.isSupportedCode && lu.isSupportedCode(cleanedLng))) {
                     found = cleanedLng;
                     ctx.i18nextLookupName = detectorName;
                 };
